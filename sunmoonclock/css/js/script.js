@@ -1,8 +1,8 @@
-
 let dayColor = "#1BE7FF";
 let sunsetColor = "#F56416";
 let rgbDay = hexToRGB(dayColor);
 let rgbSunset = hexToRGB(sunsetColor);
+let deg = 180;
 
 
 
@@ -31,20 +31,36 @@ function getCurrentTime() {
     const minutes = now.getMinutes().toString();
     const hours = now.getHours().toString();
 
-    const str1 = (hours.concat(minutes.concat(seconds)));
+    const time24 = (hours.concat(minutes.concat(seconds)));
+    let timeInSeconds = 0;
+    timeInSeconds = hours * 3600 + minutes * 60 + seconds;
 
-    console.log(str1);
-    console.log(sunsetColor);
-    console.log(dayColor);
+    deg = deg + 5;
 
-    console.log(rgbDay);
-    console.log(rgbSunset);
+    // deg = (timeInSeconds * (360 / (3600 * 1000 * 24)));
 
+    // let rotation = 360/(3600*1000*24)
+    //15 degrees for each hours
+    //15/60 for each minute
+    //15/3600 for each second
+    //180 is noon 
+    //90 is 6 oclocL
+
+    // background-image: linear-gradient(to bottom right, red, yellow);
+
+    document.body.style.backgroundImage = ("linear-gradient(180deg," + dayColor + "," + sunsetColor + ")");
+
+
+    const clockClass = document.querySelector(".clock");
+    const largerClockClass = document.querySelector(".larger-clock");
+
+    clockClass.style.backgroundImage = ("linear-gradient(" + deg + "deg," + dayColor + "," + sunsetColor + ")");
+    largerClockClass.style.backgroundImage = ("linear-gradient(" + deg + "deg," + dayColor + "," + sunsetColor + ")");
     
-
-
-
-    document.body.style.backgroundColor = RGBToHex("rgb(136,165,133)");
+    largerClockClass.style.transform = `rotate(${deg}deg)`;
+    clockClass.style.transform = `rotate(${deg}deg)`;
+    // document.clock.style.backgroundImage = ("linear-gradient(180deg,"+dayColor+","+sunsetColor+")");
+    // document.body.style.backgroundColor = RGBToHex("rgb(136,165,133)");
 
     // console.log(document.body.style.backgroundColor);
 
@@ -57,7 +73,7 @@ function getCurrentTime() {
 function replaceChar(origString, replaceChar, index) {
     let firstPart = origString.substr(0, index);
     let lastPart = origString.substr(index + 1);
-      
+
     let newString = firstPart + replaceChar + lastPart;
     return newString;
 }
@@ -67,39 +83,41 @@ function RGBToHex(rgb) {
     let sep = rgb.indexOf(",") > -1 ? "," : " ";
     // Turn "rgb(r,g,b)" into [r,g,b]
     rgb = rgb.substr(4).split(")")[0].split(sep);
-  
+
     let r = (+rgb[0]).toString(16),
         g = (+rgb[1]).toString(16),
         b = (+rgb[2]).toString(16);
-  
-    if (r.length == 1)
-      r = "0" + r;
-    if (g.length == 1)
-      g = "0" + g;
-    if (b.length == 1)
-      b = "0" + b;
-  
-    return "#" + r + g + b;
-  }
 
-  function hexToRGB(h) {
-    let r = 0, g = 0, b = 0;
-  
+    if (r.length == 1)
+        r = "0" + r;
+    if (g.length == 1)
+        g = "0" + g;
+    if (b.length == 1)
+        b = "0" + b;
+
+    return "#" + r + g + b;
+}
+
+function hexToRGB(h) {
+    let r = 0,
+        g = 0,
+        b = 0;
+
     // 3 digits
     if (h.length == 4) {
-      r = "0x" + h[1] + h[1];
-      g = "0x" + h[2] + h[2];
-      b = "0x" + h[3] + h[3];
-  
-    // 6 digits
+        r = "0x" + h[1] + h[1];
+        g = "0x" + h[2] + h[2];
+        b = "0x" + h[3] + h[3];
+
+        // 6 digits
     } else if (h.length == 7) {
-      r = "0x" + h[1] + h[2];
-      g = "0x" + h[3] + h[4];
-      b = "0x" + h[5] + h[6];
+        r = "0x" + h[1] + h[2];
+        g = "0x" + h[3] + h[4];
+        b = "0x" + h[5] + h[6];
     }
-    
-    return "rgb("+ +r + "," + +g + "," + +b + ")";
-  }
+
+    return "rgb(" + +r + "," + +g + "," + +b + ")";
+}
 
 
 // function controlBackground() {
